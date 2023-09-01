@@ -141,7 +141,13 @@ function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
         <>
             <div className='text-light'>
                 <h2><center>FACE RECOGNITION</center></h2>
-        
+
+                {
+                    (loadModels == false ||  loadLabeledImages == false ) &&
+                    <div>Loading...</div>
+                }
+
+
                 <div className="">
                     <video ref={videoRef} style={{ borderRadius: '10px' }} autoPlay={true} />
                     <canvas ref={canvasRef} style={{ border: '1px solid black' }} ></canvas>

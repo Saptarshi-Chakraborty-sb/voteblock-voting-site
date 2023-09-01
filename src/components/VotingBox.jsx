@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/VoterDetails.css'
 import VotingOption from './VotingOption'
 
@@ -10,10 +10,18 @@ const VotingBox = ({ voter, setVoter }) => {
         if (voter.status !== 'active' || option === "" || voter.booth.status !== 'active') return;
         let voteData = `${voter.uniqueKey}-${voter.booth.code}-${option.code}`;
 
-        setMessage(() => `Your vote for ${option.name} (${option.code}) from ${voter.booth.name} (${voter.booth.code}) is submitted successfully`);
-        
+        const message = `Your vote for ${option.name} (${option.code}) from ${voter.booth.name} (${voter.booth.code}) is submitted successfully`
+
+        console.log(message);
+        setMessage(() => message);
+
         // TODO: reset the voter data
     }
+
+    useEffect(() => {
+        console.log(option)
+    }, [option])
+
 
     return (
         <>
@@ -52,7 +60,7 @@ const VotingBox = ({ voter, setVoter }) => {
             {
                 (message !== "") &&
                 <div className='card my-4 bg-success'>
-                    <h4 className='text-center text-light mb-0'>Your vote for Option 2 (OPT2) from Booth 2 (BTH2) is submitted successfully</h4>
+                    <h4 className='text-center text-light mb-0'>{message}</h4>
                 </div>
             }
         </>

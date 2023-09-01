@@ -89,7 +89,7 @@ const BarcodeScanner = ({ qrData, setQrData }) => {
 
     return (
         <div hidden={willHide}>
-            <h3 className='text-light'>Scan the QR Code in your Voter Card</h3>
+            <h3 className='text-light'>Scan the QR Code of your Voter Card</h3>
             <video ref={videoRef} autoPlay />
 
             {/* <select value={currentCameraId} onChange={changeCamera} className="form-select" aria-label="Default select example" style={{ width: 'fit-content' }}>
