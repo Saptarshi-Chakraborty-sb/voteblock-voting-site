@@ -22,7 +22,10 @@ const VoterBox = ({ voter }) => {
                     </p>
 
                     <p><strong>Date of Birth : </strong>{voter.dob}</p>
-                    <p><strong>Booth : </strong>{voter.booth.name} ({voter.booth.area})</p>
+                    {
+                        (voter.booth != null) && 
+                        <p><strong>Booth : </strong>{voter.booth.name} ({voter.booth.area})</p>
+                    }
 
                     <p><strong>Status : </strong>
                         {
