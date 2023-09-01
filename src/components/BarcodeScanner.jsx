@@ -27,9 +27,11 @@ const BarcodeScanner = ({ qrData, setQrData }) => {
 
                     setVideoInputDevices(() => { return videoInputDevices });
 
+                    // console.log(videoInputDevices)
+                    // set to the first camera by default
                     const constraints = {
                         video: {
-                            deviceId: '62195891684dd1236e442d0826584c5a9308b64b64ce7d535763698c05c9f457',
+                            deviceId: videoInputDevices[0].deviceId,
                         },
                     };
 
@@ -70,6 +72,12 @@ const BarcodeScanner = ({ qrData, setQrData }) => {
 
         return () => {
             codeReader.reset();
+            if (videoRef.current.srcObject) {
+                videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+                // stopCamera();
+                codeReader.stopAsyncDecode();
+                setWillHide(() => true)
+            }
         };
     }, []);
 
@@ -77,6 +85,7 @@ const BarcodeScanner = ({ qrData, setQrData }) => {
         let deviceId = event.target.value;
         setCurrentCameraId(() => { return deviceId });
     }
+
 
     return (
         <div hidden={willHide}>

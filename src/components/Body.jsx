@@ -27,15 +27,14 @@ const Body = () => {
             let data;
             try {
                 data = JSON.parse(_rawData);
+                console.log(data);
             } catch (error) {
                 toast.error("An unexpected data got from server");
                 return;
             }
 
             if (data.status == 'error') {
-                if (data.type == "encryption-error") {
-                    setErrorMessage(() => "Invalid QR code");
-                }
+                setErrorMessage(() => "Invalid QR code");                
                 return;
             }
 
