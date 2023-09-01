@@ -5,12 +5,13 @@ import { toast } from 'react-toastify'
 import BarcodeScanner from './BarcodeScanner'
 import ErrorBox from './ErrorBox'
 import CONSTANT from '../constants'
+import FaceRecognition from './FaceRecognition'
 
 const Body = () => {
     // const [qrData, setQrData] = useState("");
     const [qrData, setQrData] = useState('');
-    const [voter, setVoter] = useState({ id: "", name: "", fatherName: "", gender: "", dob: "", booth: null, options: null, isOldVoterCard: false, uniqueKey: "", status: "" });
-    const [fetchedVoter, setFetchVoter] = useState(true);
+    const [voter, setVoter] = useState({ id: "", name: "", fatherName: "", gender: "", dob: "", booth: null, options: null, isOldVoterCard: false, uniqueKey: "", status: "", images: [] });
+    const [faceVerified, setFaceVerified] = useState(false);
     const [errorMessage, setErrorMessage] = useState('')
 
     const fetchVoter = () => {
@@ -34,7 +35,7 @@ const Body = () => {
             }
 
             if (data.status == 'error') {
-                setErrorMessage(() => "Invalid QR code");                
+                setErrorMessage(() => "Invalid QR code");
                 return;
             }
 
@@ -46,6 +47,7 @@ const Body = () => {
                 setErrorMessage(() => "You are using an older version of your voter card. Please use the latest one");
             }
 
+            console.log(data.images);
             let voterData = {
                 id: data.id,
                 name: data.name,
@@ -67,6 +69,7 @@ const Body = () => {
                     status: data.boothStatus,
                 };
                 voterData['options'] = data.options;
+                voterData['images'] = data.images;
             }
 
             setVoter(() => { return voterData });
@@ -99,6 +102,13 @@ const Body = () => {
             }
 
             <BarcodeScanner qrData={qrData} setQrData={setQrData} />
+
+
+            {
+                (qrData !== "" && voter.id !== "" ) &&
+                <FaceRecognition faceVerified={faceVerified} setFaceVerified={setFaceVerified} voterImages={voter.images} />
+            }
+
             < VoterDetails qrData={qrData} voter={voter} />
 
             {

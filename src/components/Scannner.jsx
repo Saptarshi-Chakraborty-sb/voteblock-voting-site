@@ -39,11 +39,19 @@ const Scanner = ({ qrData, setQrData }) => {
         }
     };
 
+
     const stopCamera = () => {
-        pauseCamera();
+        const stream = videoElementRef.current.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach((track) => {
+            track.stop();
+        });
+
+        videoElementRef.current.srcObject = null;
         setCameraActive(false);
-        // codeReader.reset();
     };
+
 
     const pauseCamera = () => {
         videoElementRef.current.pause();
@@ -58,7 +66,7 @@ const Scanner = ({ qrData, setQrData }) => {
             canvas.height = videoElement.videoHeight / 2;
             const context = canvas.getContext('2d');
             context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            const imageDataURL = canvas.toDataURL('image/jpeg');
+            const imageDataURL = canvas.toDataURL('image/png');
             // Do something with the imageDataURL
 
 

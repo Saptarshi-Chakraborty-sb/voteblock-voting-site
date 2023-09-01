@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/VoterDetails.css'
 import VotingOption from './VotingOption'
 
-const VotingBox = ({ voter }) => {
+const VotingBox = ({ voter, setVoter }) => {
     const [option, setoption] = useState(null);
     const [message, setMessage] = useState("");
 
@@ -11,6 +11,8 @@ const VotingBox = ({ voter }) => {
         let voteData = `${voter.uniqueKey}-${voter.booth.code}-${option.code}`;
 
         setMessage(() => `Your vote for ${option.name} (${option.code}) from ${voter.booth.name} (${voter.booth.code}) is submitted successfully`);
+        
+        // TODO: reset the voter data
     }
 
     return (
