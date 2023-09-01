@@ -30,7 +30,7 @@ const VotingBox = ({ voter, setVoter }) => {
                 <div className='card my-4'>
                     {
                         (voter.booth.status == 'active') ?
-                            <h2 className="title">Availavle Options for Your Booth</h2>
+                            <h2 className="title">Availavle Parties for Your Booth</h2>
                             : (voter.booth.status == 'banned') ?
                                 <h2 className="title">Your Booth is Banned for Some Reason</h2>
                                 :
@@ -39,7 +39,7 @@ const VotingBox = ({ voter, setVoter }) => {
 
                     {
                         (voter.booth.status == 'active') ||
-                        <p className='text-warning text-center'>No Option available for this Booth</p>
+                        <p className='text-warning text-center'>No Party available for this Booth</p>
                     }
 
                     <div>
