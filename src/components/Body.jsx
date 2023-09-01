@@ -105,16 +105,19 @@ const Body = () => {
 
 
             {
-                (qrData !== "" && voter.id !== "" ) &&
+                (qrData !== "" && voter.id !== "" && faceVerified == false) &&
                 <FaceRecognition faceVerified={faceVerified} setFaceVerified={setFaceVerified} voterImages={voter.images} />
             }
 
+
             < VoterDetails qrData={qrData} voter={voter} />
 
+
             {
-                (voter.booth !== null) &&
+                (voter.booth !== null && faceVerified === true) &&
                 <VotingBox voter={voter} />
             }
+
         </div>
     )
 }

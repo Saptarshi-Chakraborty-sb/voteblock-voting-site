@@ -1,6 +1,7 @@
 import * as faceapi from 'face-api.js'
 import { useEffect, useRef, useState } from 'react'
 import CONSTANT from '../constants'
+import { toast } from 'react-toastify'
 
 function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
     const videoRef = useRef(null)
@@ -74,8 +75,22 @@ function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
         const detections = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceDescriptors()
         const results = detections.map(d => faceMatcher.findBestMatch(d.descriptor))
 
-        setMatchingResult(results)
+        if (results.length === 0) {
+            toast.error('No face detected. Please try again')
+            return;
+        }
+        else if (results.length > 1) {
+            toast.error('Multiple faces detected. Please try again')
+            return;
+        }
 
+        if (results[0]._label === 'verifiedUser') {
+            stopWebcam();
+            toast.success('Face verified successfully')
+            setFaceVerified(true)
+        }
+
+        setMatchingResult(results)
         console.log(results);
     }
 
@@ -122,16 +137,11 @@ function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
 
 
 
-
-
-
-
     return (
         <>
             <div className='text-light'>
                 <h2><center>FACE RECOGNITION</center></h2>
-
-
+        
                 <div className="">
                     <video ref={videoRef} style={{ borderRadius: '10px' }} autoPlay={true} />
                     <canvas ref={canvasRef} style={{ border: '1px solid black' }} ></canvas>
@@ -154,7 +164,8 @@ function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
                     </>
                 }
 
-                <div style={{ border: "1px solid red", marginTop: "25px" }}>
+                {/* Testing Purpose */}
+                {/* <div style={{ border: "1px solid red", marginTop: "25px" }}>
                     <h3>Matching Result</h3>
                     {
                         matchingResult.map((result, index) => {
@@ -166,12 +177,7 @@ function FaceRecognition({ faceVerified, setFaceVerified, voterImages, }) {
                             )
                         })
                     }
-
-
-
-
-
-                </div>
+                </div> */}
 
 
             </div>
